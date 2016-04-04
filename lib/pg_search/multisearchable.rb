@@ -24,6 +24,11 @@ module PgSearch
       {
         content: searchable_text
       }.tap do |h|
+
+        if self.respond_to?(:challenge) && self.challenge.present?
+          h[:challenge_id] = self.challenge.id
+        end
+
         if (attrs = pg_search_multisearchable_options[:additional_attributes])
           h.merge! attrs.to_proc.call(self)
         end
